@@ -58,12 +58,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Please review [our security policy](security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
 - [alexis desmarais](https://github.com/eloquentize)
-- [All Contributors](../../contributors)
 
 ## License
 
