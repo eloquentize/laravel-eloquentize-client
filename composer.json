@@ -1,33 +1,35 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "eloquentize/laravel-client",
+    "description": "laravel library for eloquentize.com service",
     "keywords": [
-        ":vendor_name",
+        "eloquentize",
         "laravel",
-        ":package_slug"
+        "laravel-client"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/eloquentize/laravel-client",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Eloquentize - alexis desmarais",
+            "email": "desmarais.alexis@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
-        "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^10.0"
+        "guzzlehttp/guzzle": "^7.8",
+        "illuminate/contracts": "^10.0",
+        "nesbot/carbon": "^2.72",
+        "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
+        "larastan/larastan": "^2.0.1",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.8",
-        "larastan/larastan": "^2.0.1",
         "orchestra/testbench": "^8.8",
         "pestphp/pest": "^2.20",
         "pestphp/pest-plugin-arch": "^2.5",
-        "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.2",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
@@ -35,19 +37,20 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Eloquentize\\LaravelClient\\": "src/",
+            "Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/"
+            "Eloquentize\\LaravelClient\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "App\\": "src/app/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-client --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
@@ -73,10 +76,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Eloquentize\\LaravelClient\\LaravelClientServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelClient": "Eloquentize\\LaravelClient\\Facades\\LaravelClient"
             }
         }
     },
