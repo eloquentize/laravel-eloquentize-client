@@ -23,12 +23,7 @@ You can install the package via composer:
 composer require eloquentize/laravel-client
 ```
 
-You can publish and run the migrations with:
 
-```bash
-php artisan vendor:publish --tag="laravel-client-migrations"
-php artisan migrate
-```
 
 You can publish the config file with:
 
@@ -43,23 +38,14 @@ return [
 ];
 ```
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-client-views"
-```
 
 ## Usage
 
-```php
-$laravelClient = new Eloquentize\LaravelClient();
-echo $laravelClient->echoPhrase('Hello, Eloquentize!');
-```
 
 ## Testing
 
 ```bash
-composer test
+pest
 ```
 
 ## Changelog
@@ -68,7 +54,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+<!-- Please see [CONTRIBUTING](CONTRIBUTING.md) for details. -->
 
 ## Security Vulnerabilities
 
