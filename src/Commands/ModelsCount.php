@@ -3,13 +3,13 @@
 namespace Eloquentize\LaravelClient\Commands;
 
 use Carbon\CarbonPeriod;
-use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
 use Eloquentize\LaravelClient\Commands\Traits\BuildPeriod;
 use Eloquentize\LaravelClient\Commands\Traits\DateArgument;
 use Eloquentize\LaravelClient\Commands\Traits\GatherModels;
+use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
 use Eloquentize\LaravelClient\Commands\Traits\ModelsOption;
-use Eloquentize\LaravelClient\Commands\Traits\SendMetricsData;
 use Eloquentize\LaravelClient\Commands\Traits\PrepareMetricsData;
+use Eloquentize\LaravelClient\Commands\Traits\SendMetricsData;
 
 class ModelsCount extends BaseCommand
 {
@@ -21,7 +21,7 @@ class ModelsCount extends BaseCommand
 
     protected $verbose = false;
 
-    public function performModelCount(array $models, CarbonPeriod $period, string $event, string $modelsPath = null)
+    public function performModelCount(array $models, CarbonPeriod $period, string $event, ?string $modelsPath = null)
     {
         $metrics = [];
         foreach ($models as $model) {
@@ -51,20 +51,22 @@ class ModelsCount extends BaseCommand
         $filteredModels = $this->parseModelsOption($this->option('models'));
 
         $period = $this->buildPeriod($date, $periodType, $dateFormat);
-        $models = $this->gatherModels($filteredModels,$modelsPath);
+        $models = $this->gatherModels($filteredModels, $modelsPath);
 
         if (count($models) < 1) {
             $this->error('No models found.');
+
             return 1;
         }
 
-        $metrics = $this->performModelCount($models, $period, $event,$modelsPath);
+        $metrics = $this->performModelCount($models, $period, $event, $modelsPath);
         $metricsData = $this->prepareMetricsData($metrics, $period, $event);
 
         $this->verbose('Sending models count data to eloquentize...'.config('eloquentize.api_url').'/api/metrics/models');
         $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'), $event);
 
         $this->line('Models count data sent to eloquentize.');
+
         return 0;
     }
 }

@@ -30,8 +30,7 @@ class PropertyAggregateLegacy extends BaseCommand
         $property = $this->argument('property');
         $event = $this->argument('event') ?? 'created_at';
         $modelsPath = $this->option('modelsPath');
-        $oldestDate = $this->getOldestDateFromModel($model,$modelsPath);
-        
+        $oldestDate = $this->getOldestDateFromModel($model, $modelsPath);
 
         if ($this->argument('date')) {
             try {

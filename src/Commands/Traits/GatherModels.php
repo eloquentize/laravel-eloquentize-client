@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Schema;
 
 trait GatherModels
 {
-    public function gatherModels( $filterModels = null,string $modelsPath = null): array
+    public function gatherModels($filterModels = null, ?string $modelsPath = null): array
     {
-        if ( $modelsPath !== null ) {
+        if ($modelsPath !== null) {
             $modelsDirectory = app_path($modelsPath);
         } else {
             $modelsDirectory = app_path('Models/');
@@ -37,12 +37,12 @@ trait GatherModels
         return $models;
     }
 
-    public function getOldestDateFromModels(array $models,string $modelsPath = null)
+    public function getOldestDateFromModels(array $models, ?string $modelsPath = null)
     {
         $earliestDate = null;
 
         foreach ($models as $model) {
-            $modelClass = $this->getModelClass($model,$modelsPath);
+            $modelClass = $this->getModelClass($model, $modelsPath);
 
             if (! $this->isModelValid($modelClass, 'created_at')) {
                 continue;
@@ -67,9 +67,9 @@ trait GatherModels
         return $earliestDate;
     }
 
-    public function getOldestDateFromModel(string $model,string $modelsPath = null)
+    public function getOldestDateFromModel(string $model, ?string $modelsPath = null)
     {
-        $modelClass = $this->getModelClass($model,$modelsPath);
+        $modelClass = $this->getModelClass($model, $modelsPath);
 
         if (! $this->isModelValid($modelClass, 'created_at')) {
             return null;
@@ -81,6 +81,7 @@ trait GatherModels
         // If no date was found, return null
         if (! $date) {
             $this->error("No record found for $model");
+
             return 1;
         }
 
@@ -94,35 +95,34 @@ trait GatherModels
     {
         // Default models directory inside the app folder
         $defaultModelsDirectory = app_path('Models/');
-    
+
         // Check if a custom models path is provided
         if ($modelsPath !== null) {
             // Validate if the custom path is a directory
-            if (!is_dir(app_path($modelsPath))) {
+            if (! is_dir(app_path($modelsPath))) {
                 throw new \Exception("The provided models path is not a valid directory: {$modelsPath}");
             }
-    
+
             // Ensure the custom path ends with a slash for consistency
             //$modelsPath = rtrim($modelsPath, '/') . '/';
-    
+
             // Use the custom models path to determine the namespace
             $namespace = str_replace('/', '\\', $modelsPath); // Convert path to namespace
             //return namespace; // Ensure the namespace is properly formatted
-    
+
             // Return the fully qualified class name using the custom path
             //echo "MODEL:{$model} \n";
             //echo "App\\{$namespace}\\{$model}";
             return "App\\{$namespace}\\{$model}";
         }
-    
+
         // Fall back to default behavior if no custom path is provided
-        if (!is_dir($defaultModelsDirectory)) {
+        if (! is_dir($defaultModelsDirectory)) {
             return "App\\{$model}";
         }
-    
+
         return "App\\Models\\{$model}";
     }
-    
 
     protected function isModelValid(string $modelClass, string $column): bool
     {

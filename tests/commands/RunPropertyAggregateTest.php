@@ -2,9 +2,8 @@
 
 use App\Testing\Models\Bill;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Artisan;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Illuminate\Support\Facades\Http;
 
 it('ensure property-aggregate sum is callable', function () {
     Http::fake([
@@ -15,8 +14,8 @@ it('ensure property-aggregate sum is callable', function () {
         ->assertExitCode(Command::SUCCESS);
 
 })->with([
-    fn() => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 1000]),
-    fn() => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 500]),
+    fn () => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 1000]),
+    fn () => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 500]),
 ]);
 
 it('ensure property-aggregate-legacy sum is callable', function () {
@@ -28,8 +27,8 @@ it('ensure property-aggregate-legacy sum is callable', function () {
         ->assertExitCode(Command::SUCCESS);
 
 })->with([
-    fn() => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 1000]),
-    fn() => Bill::factory()->create(['ref' => 'BILL_0000002', 'price' => 500]),
+    fn () => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 1000]),
+    fn () => Bill::factory()->create(['ref' => 'BILL_0000002', 'price' => 500]),
 ]);
 
 // it('ensure property-aggregate sum return an error if Model do not exists', function () {

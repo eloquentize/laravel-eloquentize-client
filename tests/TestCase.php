@@ -2,10 +2,9 @@
 
 namespace Eloquentize\LaravelClient\Tests;
 
-use Database\Factories\UserFactory;
-use Orchestra\Testbench\TestCase as Orchestra;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Eloquentize\LaravelClient\LaravelClientServiceProvider;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
@@ -15,7 +14,7 @@ class TestCase extends Orchestra
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Database\\Factories\\'.class_basename($modelName).'Factory'
         );
-        
+
     }
 
     protected function getPackageProviders($app)
@@ -34,6 +33,6 @@ class TestCase extends Orchestra
         $migration->up();
         $migration = include __DIR__.'/../database/migrations/create_bills_table.php.stub';
         $migration->up();
-        
+
     }
 }

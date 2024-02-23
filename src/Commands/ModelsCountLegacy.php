@@ -2,13 +2,13 @@
 
 namespace Eloquentize\LaravelClient\Commands;
 
-use Illuminate\Support\Carbon;
-use function Laravel\Prompts\progress;
-use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
 use Eloquentize\LaravelClient\Commands\Traits\BuildPeriod;
-
 use Eloquentize\LaravelClient\Commands\Traits\GatherModels;
+use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
 use Eloquentize\LaravelClient\Commands\Traits\ModelsOption;
+use Illuminate\Support\Carbon;
+
+use function Laravel\Prompts\progress;
 
 class ModelsCountLegacy extends BaseCommand
 {
@@ -22,28 +22,30 @@ class ModelsCountLegacy extends BaseCommand
 
     public function handle()
     {
-        
+
         $this->verbose = $this->option('verbose') ?? false;
         $dateFormat = $this->option('dateFormat') ?? $this->defaultDateFormat;
         $event = $this->option('event') ?? 'created_at';
         $modelsPath = $this->option('modelsPath');
         $filteredModels = $this->parseModelsOption($this->option('models'));
-        $oldestDate = $this->getOldestDateFromModels($this->gatherModels($filteredModels,$modelsPath),$modelsPath);
-        
+        $oldestDate = $this->getOldestDateFromModels($this->gatherModels($filteredModels, $modelsPath), $modelsPath);
+
         if ($this->argument('date')) {
             try {
                 $date = Carbon::createFromFormat($dateFormat, $this->argument('date'));
             } catch (\Exception $e) {
                 $this->error('Invalid date format. The date should be formatted according to the provided date format: '.$dateFormat);
                 $this->error('Given date: '.$this->argument('date'));
+
                 return 1;
             }
         } else {
             $date = $oldestDate;
         }
-        
-        if ( $date == null ) {
+
+        if ($date == null) {
             $this->error('No Records found.');
+
             return 1;
         }
         $this->verbose("date format: $dateFormat");

@@ -2,7 +2,6 @@
 
 namespace Eloquentize\LaravelClient;
 
-use Eloquentize\LaravelClient\Commands\LaravelClientCommand;
 use Eloquentize\LaravelClient\Commands\ModelsCount;
 use Eloquentize\LaravelClient\Commands\ModelsCountLegacy;
 use Eloquentize\LaravelClient\Commands\PropertyAggregate;

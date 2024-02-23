@@ -3,14 +3,14 @@
 namespace Eloquentize\LaravelClient\Commands;
 
 use Carbon\CarbonPeriod;
-use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
+use Eloquentize\LaravelClient\Commands\Enums\AggregationType;
+use Eloquentize\LaravelClient\Commands\Traits\AggregationArgument;
 use Eloquentize\LaravelClient\Commands\Traits\BuildPeriod;
 use Eloquentize\LaravelClient\Commands\Traits\DateArgument;
 use Eloquentize\LaravelClient\Commands\Traits\GatherModels;
-use Eloquentize\LaravelClient\Commands\Enums\AggregationType;
-use Eloquentize\LaravelClient\Commands\Traits\SendMetricsData;
+use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
 use Eloquentize\LaravelClient\Commands\Traits\PrepareMetricsData;
-use Eloquentize\LaravelClient\Commands\Traits\AggregationArgument;
+use Eloquentize\LaravelClient\Commands\Traits\SendMetricsData;
 
 class PropertyAggregate extends BaseCommand
 {
@@ -25,15 +25,15 @@ class PropertyAggregate extends BaseCommand
     public function perform(string $model, AggregationType $aggregation, string $property, CarbonPeriod $period, string $event, $modelsPath = null)
     {
         $metrics = [];
-        $modelClass = $this->getModelClass($model,$modelsPath);
-        
+        $modelClass = $this->getModelClass($model, $modelsPath);
+
         if (! $this->isModelValid($modelClass, $property)) {
             //exit(1);
             //echo "\n".$modelClass;
             //echo "\n"."Model is not valid";
             return 1;
         }
-       
+
         try {
             $method = $aggregation->value;
             // sound avg / min / max / sum return 0 if no records found ? for now
@@ -45,6 +45,7 @@ class PropertyAggregate extends BaseCommand
             $metrics[] = (object) ['label' => $label, 'count' => $count];
         } catch (\Exception $e) {
             $this->verbose('An error occurred: '.$e->getMessage(), 'error');
+
             return 1;
         }
 
@@ -53,7 +54,7 @@ class PropertyAggregate extends BaseCommand
 
     public function handle()
     {
-        
+
         $this->verbose = $this->option('verbose') ?? false;
         $model = $this->argument('model');
         $aggregation = $this->resolveAggregation($this->argument('aggregation'));
