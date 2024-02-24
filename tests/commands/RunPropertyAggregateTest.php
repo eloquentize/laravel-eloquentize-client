@@ -10,7 +10,7 @@ it('ensure property-aggregate sum is callable', function () {
         config('eloquentize.api_url').'/api/metrics/models' => Http::response(['status' => 'ok'], 200),
     ]);
 
-    $this->artisan('eloquentize:property-aggregate Bill sum price --modelsPath=Testing/Models -v ')
+    $this->artisan('eloquentize:property-aggregate Bill price sum --modelsPath=Testing/Models -v ')
         ->assertExitCode(Command::SUCCESS);
 
 })->with([
@@ -23,7 +23,7 @@ it('ensure property-aggregate-legacy sum is callable', function () {
         config('eloquentize.api_url').'/api/metrics/models' => Http::response(['status' => 'ok'], 200),
     ]);
 
-    $this->artisan('eloquentize:property-aggregate-legacy Bill sum price 01/02/2024 --modelsPath=Testing/Models -v ')
+    $this->artisan('eloquentize:property-aggregate-legacy Bill price sum 01/02/2024 --modelsPath=Testing/Models -v ')
         ->assertExitCode(Command::SUCCESS);
 
 })->with([

@@ -15,7 +15,7 @@ class PropertyAggregateLegacy extends BaseCommand
 {
     use AggregationArgument, BuildPeriod, GatherModels, HasVerbose, ModelsOption;
 
-    protected $signature = 'eloquentize:property-aggregate-legacy {model} {aggregation} {property} {date?} {event?} {--periodType=daily} {--dateFormat=} {--modelsPath=}';
+    protected $signature = 'eloquentize:property-aggregate-legacy {model} {property} {aggregation} {date?} {event?} {--periodType=daily} {--dateFormat=} {--modelsPath=}';
 
     protected $description = 'Send to Eloquentize the aggregation of a model property from a given date or from the oldest eloquent model created_at to yesterday';
 
@@ -26,8 +26,8 @@ class PropertyAggregateLegacy extends BaseCommand
         $this->verbose = $this->option('verbose') ?? false;
         $dateFormat = $this->option('dateFormat') ?? $this->defaultDateFormat;
         $model = $this->argument('model');
-        $aggregation = $this->resolveAggregation($this->argument('aggregation'));
         $property = $this->argument('property');
+        $aggregation = $this->resolveAggregation($this->argument('aggregation'));
         $event = $this->argument('event') ?? 'created_at';
         $modelsPath = $this->option('modelsPath');
         $oldestDate = $this->getOldestDateFromModel($model, $modelsPath);
@@ -62,8 +62,8 @@ class PropertyAggregateLegacy extends BaseCommand
             // Call the command with the required parameters
             $this->call('eloquentize:property-aggregate', [
                 'model' => $model,
-                'aggregation' => $aggregation->value,
                 'property' => $property,
+                'aggregation' => $aggregation->value,
                 'date' => $dateString,
                 '-v' => true,
                 '--event' => $event,

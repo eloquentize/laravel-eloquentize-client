@@ -17,10 +17,7 @@ trait GatherModels
                 $modelsDirectory = app_path('/');
             }
         }
-        // $modelsDirectory = app_path('Models/');
-        // if (! is_dir($modelsDirectory)) {
-        //     $modelsDirectory = app_path('/');
-        // }
+
         $files = scandir($modelsDirectory);
         $models = [];
         foreach ($files as $file) {
@@ -103,16 +100,10 @@ trait GatherModels
                 throw new \Exception("The provided models path is not a valid directory: {$modelsPath}");
             }
 
-            // Ensure the custom path ends with a slash for consistency
-            //$modelsPath = rtrim($modelsPath, '/') . '/';
-
             // Use the custom models path to determine the namespace
             $namespace = str_replace('/', '\\', $modelsPath); // Convert path to namespace
             //return namespace; // Ensure the namespace is properly formatted
 
-            // Return the fully qualified class name using the custom path
-            //echo "MODEL:{$model} \n";
-            //echo "App\\{$namespace}\\{$model}";
             return "App\\{$namespace}\\{$model}";
         }
 

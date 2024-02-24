@@ -16,7 +16,7 @@ class PropertyAggregate extends BaseCommand
 {
     use AggregationArgument, BuildPeriod, DateArgument, GatherModels, HasVerbose, PrepareMetricsData, SendMetricsData;
 
-    protected $signature = 'eloquentize:property-aggregate {model} {aggregation} {property} {date?} {--event=created_at} {--periodType=daily} {--dateFormat=} {--modelsPath=}';
+    protected $signature = 'eloquentize:property-aggregate {model} {property} {aggregation} {date?} {--event=created_at} {--periodType=daily} {--dateFormat=} {--modelsPath=}';
 
     protected $description = 'Perform a sum of a property of a model for a given date and event.';
 
