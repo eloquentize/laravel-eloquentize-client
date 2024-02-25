@@ -1,10 +1,13 @@
 {
-    "name": "eloquentize/laravel-client",
+    "name": "eloquentize/laravel-eloquentize-client",
     "description": "laravel library for eloquentize.com service",
     "keywords": [
         "eloquentize",
         "laravel",
-        "laravel-client"
+        "laravel-client",
+        "eloquent",
+        "multi-project",
+        "dashboard"
     ],
     "homepage": "https://github.com/eloquentize/laravel-client",
     "license": "MIT",
