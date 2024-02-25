@@ -19,7 +19,7 @@ class LaravelClientServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravel-client')
+            ->name('laravel-eloquentize-client')
             ->hasConfigFile('eloquentize')
             //->hasViews()
             //->hasMigration('create_laravel-client_table')

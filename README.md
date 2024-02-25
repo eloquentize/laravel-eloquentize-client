@@ -1,15 +1,15 @@
 # laravel lib for eloquentize.com service
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/eloquentize/laravel-client.svg?style=flat-square)](https://packagist.org/packages/eloquentize/laravel-client)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/eloquentize/laravel-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/eloquentize/laravel-client/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/eloquentize/laravel-client/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/eloquentize/laravel-client/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/eloquentize/laravel-client.svg?style=flat-square)](https://packagist.org/packages/eloquentize/laravel-client)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/eloquentize/laravel-eloquentize-client.svg?style=flat-square)](https://packagist.org/packages/eloquentize/laravel-eloquentize-client)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/eloquentize/laravel-eloquentize-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/eloquentize/laravel-eloquentize-client/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/eloquentize/laravel-eloquentize-client/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/eloquentize/laravel-eloquentize-client/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/eloquentize/laravel-eloquentize-client.svg?style=flat-square)](https://packagist.org/packages/eloquentize/laravel-eloquentize-client)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-client.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-client)
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-eloquentize-client.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-eloquentize-client)
 
 We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
 
@@ -20,7 +20,7 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 You can install the package via composer:
 
 ```bash
-composer require eloquentize/laravel-client
+composer require eloquentize/laravel-eloquentize-client
 ```
 
 
@@ -28,7 +28,7 @@ composer require eloquentize/laravel-client
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-client-config"
+php artisan vendor:publish --tag="laravel-eloquentize-client-config"
 ```
 
 This is the contents of the published config file:

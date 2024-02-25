@@ -4,12 +4,12 @@
     "keywords": [
         "eloquentize",
         "laravel",
-        "laravel-client",
+        "laravel-eloquentize-client",
         "eloquent",
         "multi-project",
         "dashboard"
     ],
-    "homepage": "https://github.com/eloquentize/laravel-client",
+    "homepage": "https://github.com/eloquentize/laravel-eloquentize-client",
     "license": "MIT",
     "authors": [
         {
