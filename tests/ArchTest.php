@@ -1,6 +1,7 @@
 <?php
-if ( !function_exists('arch') ) {
-   return;
+
+if (! function_exists('arch')) {
+    return;
 }
 
 arch('it will not use debugging functions')

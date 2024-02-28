@@ -3,7 +3,6 @@
 namespace Eloquentize\LaravelClient\Commands;
 
 use Carbon\CarbonPeriod;
-use Eloquentize\LaravelClient\Commands\Enums\AggregationType;
 use Eloquentize\LaravelClient\Commands\Traits\AggregationArgument;
 use Eloquentize\LaravelClient\Commands\Traits\BuildPeriod;
 use Eloquentize\LaravelClient\Commands\Traits\DateArgument;
