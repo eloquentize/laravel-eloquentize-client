@@ -9,11 +9,8 @@ This is where your description should go. Limit it to a paragraph or two. Consid
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-eloquentize-client.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-eloquentize-client)
+[<img src="https://alpha.eloquentize.com/images/eloquentize-logo-tr.svg" width="419px" />](https://alpha.eloquentize.com/docs)
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
 
@@ -23,23 +20,57 @@ You can install the package via composer:
 composer require eloquentize/laravel-eloquentize-client
 ```
 
-
-
 You can publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="laravel-eloquentize-client-config"
 ```
 
-This is the contents of the published config file:
+## Usage
 
-```php
-return [
-];
+# Getting start
+
+Eloquentize offers a comprehensive monitoring solution for Laravel applications by providing a simple library integration, seamless API usage, and a customizable dashboard to visualize daily projects metrics. It enables efficient tracking and aggregation of model event metrics without additional coding, enhancing project management and insight.
+
+### Requirements
+
+At this point you need a laravel project, even if his version his very old ( 5.6 with php 7.4 is ok, mmm not really ok, because you might not use that anymore, but eloquentize will works on that. )
+
+Having access to the shell might be a good thing to have, but it’s not mandatory, thanks to laravel scheduler. So you need to have a cron job activated on your server, if you use Laravel Forge just activate Laravel scheduler option.
+
+You need table with timestamps, this is the point.
+
+### Installation
+
+The eloquentize library will be available soon on composer, as soon as the library will be available i assume you can do a composer require eloquentize/client
+
+To set up Eloquentize, start by installing it through Composer with the following command:
+
+```bash
+composer require eloquentize/laravel-eloquentize-client
 ```
 
+This should be done as soon as it becomes available. After installation, proceed to app.eloquentize.com to create your account and generate an API key. This key should then be added to your **`.env`** file in the following manner to complete the configuration process:
 
-## Usage
+```makefile
+ELOQUENTIZE_API_TOKEN=your_api_key_here
+```
+
+Eloquentize simplifies the integration into your Laravel projects by connecting through a library, utilizing an API for operations, and providing a dashboard for metrics visualization. This enables tracking of model events such as creation, update, and deletion efficiently without additional coding.
+
+**Usage** involves executing artisan commands like the one below to gather daily metrics:
+
+```bash
+php artisan eloquentize:models-count
+```
+
+You can tailor the data collection to your needs by specifying dates, event types, or selecting specific models, with aggregation commands available for deeper insights. These commands can be automated by scheduling them within **`App\Console\Kernel`**.
+
+For those with **existing projects**, historical data analysis from the project's inception is facilitated through:
+
+```
+php artisan eloquentize:models-count-legacy
+```
 
 
 ## Testing
