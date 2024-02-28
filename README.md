@@ -71,10 +71,11 @@ For those with **existing projects**, historical data analysis from the project'
 ```
 php artisan eloquentize:models-count-legacy
 ```
+### Docs
 
+The full doc can be found [Eloquentize](https://alpha.eloquentize.com/).
 
 ## Testing
-
 ```bash
 pest
 ```
