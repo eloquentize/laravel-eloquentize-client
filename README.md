@@ -1,16 +1,15 @@
-# laravel lib for eloquentize.com service
+# laravel lib for alpha.eloquentize.com service
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/eloquentize/laravel-eloquentize-client.svg?style=flat-square)](https://packagist.org/packages/eloquentize/laravel-eloquentize-client)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/eloquentize/laravel-eloquentize-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/eloquentize/laravel-eloquentize-client/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/eloquentize/laravel-eloquentize-client/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/eloquentize/laravel-eloquentize-client/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/eloquentize/laravel-eloquentize-client.svg?style=flat-square)](https://packagist.org/packages/eloquentize/laravel-eloquentize-client)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Eloquentize provides a full-featured monitoring toolkit for Laravel applications, designed for effortless integration. By incorporating a straightforward library, leveraging a smooth API, and offering a tailor-made dashboard, it simplifies the visualization of daily project metrics. This solution facilitates the efficient tracking and aggregation of model event metrics, streamlining project management and enriching insights, all without the need for extra coding.
 
-## Support us
+[<img src="https://alpha.eloquentize.com/images/eloquentize-logo-tr.svg" width="128px" />](https://alpha.eloquentize.com/docs)
 
-[<img src="https://alpha.eloquentize.com/images/eloquentize-logo-tr.svg" width="419px" />](https://alpha.eloquentize.com/docs)
-
+# Getting start
 
 ## Installation
 
@@ -28,21 +27,15 @@ php artisan vendor:publish --tag="laravel-eloquentize-client-config"
 
 ## Usage
 
-# Getting start
-
-Eloquentize offers a comprehensive monitoring solution for Laravel applications by providing a simple library integration, seamless API usage, and a customizable dashboard to visualize daily projects metrics. It enables efficient tracking and aggregation of model event metrics without additional coding, enhancing project management and insight.
-
 ### Requirements
 
-At this point you need a laravel project, even if his version his very old ( 5.6 with php 7.4 is ok, mmm not really ok, because you might not use that anymore, but eloquentize will works on that. )
+To get started, you'll require a Laravel project, regardless of its version; even older versions like 5.6 running on PHP 7.4 are compatible, although such setups are less common now. However, Eloquentize is designed to work seamlessly even on these versions.
 
-Having access to the shell might be a good thing to have, but it’s not mandatory, thanks to laravel scheduler. So you need to have a cron job activated on your server, if you use Laravel Forge just activate Laravel scheduler option.
+Shell access is beneficial but not essential, thanks to Laravel's scheduler. Therefore, ensuring a cron job is set up on your server is necessary. If you're using Laravel Forge, simply enable the Laravel scheduler option.
 
-You need table with timestamps, this is the point.
+Lastly, your database tables must include timestamps for Eloquentize to function correctly.
 
 ### Installation
-
-The eloquentize library will be available soon on composer, as soon as the library will be available i assume you can do a composer require eloquentize/client
 
 To set up Eloquentize, start by installing it through Composer with the following command:
 
@@ -50,13 +43,16 @@ To set up Eloquentize, start by installing it through Composer with the followin
 composer require eloquentize/laravel-eloquentize-client
 ```
 
-This should be done as soon as it becomes available. After installation, proceed to app.eloquentize.com to create your account and generate an API key. This key should then be added to your **`.env`** file in the following manner to complete the configuration process:
+for php 7.4 please use
+```bash
+composer require eloquentize/laravel-eloquentize-client dev-php7.4
+```
+
+After installation, proceed to [alpha](https://alpha.eloquentize.com) to create your account and generate an API key. This key should then be added to your **`.env`** file in the following manner to complete the configuration process:
 
 ```makefile
 ELOQUENTIZE_API_TOKEN=your_api_key_here
 ```
-
-Eloquentize simplifies the integration into your Laravel projects by connecting through a library, utilizing an API for operations, and providing a dashboard for metrics visualization. This enables tracking of model events such as creation, update, and deletion efficiently without additional coding.
 
 **Usage** involves executing artisan commands like the one below to gather daily metrics:
 
