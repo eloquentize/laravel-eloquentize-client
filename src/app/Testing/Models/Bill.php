@@ -10,4 +10,9 @@ class Bill extends Model
     protected $guarded = [];
 
     use HasFactory;
+
+    public function scopePriceOver($query, $price)
+    {
+        return $query->where('price', '>', $price);
+    }
 }
