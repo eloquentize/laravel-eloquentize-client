@@ -27,7 +27,7 @@ class PropertyAggregateLegacy extends BaseCommand
         $dateFormat = $this->option('dateFormat') ?? $this->defaultDateFormat;
         $model = $this->argument('model');
         $property = $this->argument('property');
-        $aggregation = $this->resolveAggregation($this->argument('aggregation'));
+        $aggregation = $this->argument('aggregation');
         $event = $this->argument('event') ?? 'created_at';
         $modelsPath = $this->option('modelsPath');
         $oldestDate = $this->getOldestDateFromModel($model, $modelsPath);
@@ -57,13 +57,13 @@ class PropertyAggregateLegacy extends BaseCommand
         foreach ($dateRange as $d) {
             // Format the date into a string that the command will understand
             $dateString = $d->format($dateFormat);
-            $this->verbose("Calling eloquentize:property-aggregate $aggregation->value for $dateString with format $dateFormat.");
+            $this->verbose("Calling eloquentize:property-aggregate $aggregation for $dateString with format $dateFormat.");
 
             // Call the command with the required parameters
             $this->call('eloquentize:property-aggregate', [
                 'model' => $model,
                 'property' => $property,
-                'aggregation' => $aggregation->value,
+                'aggregation' => $aggregation,
                 'date' => $dateString,
                 '-v' => true,
                 '--event' => $event,

@@ -22,7 +22,7 @@ class PropertyAggregate extends BaseCommand
 
     protected $verbose = false;
 
-    public function perform(string $model, AggregationType $aggregation, string $property, CarbonPeriod $period, string $event, $modelsPath = null)
+    public function perform(string $model, $aggregation, string $property, CarbonPeriod $period, string $event, $modelsPath = null)
     {
         $metrics = [];
         $modelClass = $this->getModelClass($model, $modelsPath);
@@ -57,7 +57,7 @@ class PropertyAggregate extends BaseCommand
 
         $this->verbose = $this->option('verbose') ?? false;
         $model = $this->argument('model');
-        $aggregation = $this->resolveAggregation($this->argument('aggregation'));
+        $aggregation = $this->argument('aggregation');
         $property = $this->argument('property');
         $event = $this->option('event') ?? 'created_at';
         $date = $this->resolveDate($this->argument('date') ?? 'today');
