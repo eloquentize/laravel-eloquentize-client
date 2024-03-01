@@ -45,8 +45,18 @@ class ModelsCount extends BaseCommand
             }
 
             $count = $query->count();
-            $this->verbose("Counting $model - count: ".$count);
-            $metrics[] = (object) ['label' => $model, 'count' => $count];
+
+            $label = $model;
+            if ($scope && $scopeValue) {
+                $label .= '::'.$scope.'('.$scopeValue.')';
+            } else if ($scope) {
+                $label .= '::'.$scope;
+            }
+
+
+
+            $this->verbose("Counting $label - count: ".$count);
+            $metrics[] = (object) ['label' => $label, 'count' => $count];
 
         }
 
