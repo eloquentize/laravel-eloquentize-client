@@ -14,7 +14,7 @@ class ModelsCountLegacy extends BaseCommand
 {
     use BuildPeriod, GatherModels, HasVerbose, ModelsOption;
 
-    protected $signature = 'eloquentize:models-count-legacy {date?} {--event=created_at} {--periodType=daily} {--dateFormat=} {--M|models=} {--modelsPath=}';
+    protected $signature = 'eloquentize:models-count-legacy {date?} {--event=created_at} {--periodType=daily} {--dateFormat=} {--M|models=} {--modelsPath=} {--scope=} {--scopeValue=}';
 
     protected $description = 'Send to Eloquentize the counts of all models from a given date or from the oldest eloquent model created_at to yesterday.';
 
