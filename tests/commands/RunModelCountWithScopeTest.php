@@ -22,4 +22,3 @@ it('ensure models-count is callable', function () {
     fn () => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 1000]),
     fn () => Bill::factory()->create(['ref' => 'BILL_0000002', 'price' => 500]),
 ]);
-
