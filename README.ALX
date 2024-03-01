@@ -6,3 +6,8 @@ a fake app minimal laravel architecture for testing is in /src/app
 
 have a loop at fake app path on TestCase:getEnvironmentSetUp
 and composer.json set a App namespace on 
+
+to add to the doc: 
+php artisan eloquentize:models-count --models=User --scope=Email --scopeValue="alex@plpage.net" -v 
+
+

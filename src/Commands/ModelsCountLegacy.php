@@ -68,6 +68,10 @@ class ModelsCountLegacy extends BaseCommand
                 '--event' => $event,
                 '--modelsPath' => $modelsPath,
                 '--dateFormat' => $dateFormat,
+                '--models' => $this->option('models'),
+                '--modelsPath' => $this->option('modelsPath'),
+                '--scope' => $this->option('scope'),
+                '--scopeValue' => $this->option('scopeValue'),
             ]);
 
             // Advance the progress bar after processing each date
