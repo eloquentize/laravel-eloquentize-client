@@ -1,10 +1,9 @@
 <?php
 
 use App\Testing\Models\Bill;
-use App\Testing\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 it('ensure models-count is callable', function () {
@@ -23,3 +22,4 @@ it('ensure models-count is callable', function () {
     fn () => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 1000]),
     fn () => Bill::factory()->create(['ref' => 'BILL_0000002', 'price' => 500]),
 ]);
+
