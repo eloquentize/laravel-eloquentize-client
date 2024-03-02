@@ -24,6 +24,17 @@ trait GatherModels
             if ($file === '.' || $file === '..') {
                 continue;
             }
+            // Full path to the file
+            $filePath = $modelsDirectory . $file;
+            // Check if it's a file, not a directory
+            // ALX :: we don't need to check if it's a file on .php
+            // if (!is_file($filePath)) {
+            //     continue;
+            // }
+            // Optionally, ensure the file has a .php extension
+            if (pathinfo($filePath, PATHINFO_EXTENSION) !== 'php') {
+                continue;
+            }
             $modelName = pathinfo($file, PATHINFO_FILENAME);
             if ($filterModels !== null && ! in_array($modelName, $filterModels)) {
                 continue;
