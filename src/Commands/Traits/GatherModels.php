@@ -25,7 +25,7 @@ trait GatherModels
                 continue;
             }
             // Full path to the file
-            $filePath = $modelsDirectory . $file;
+            $filePath = $modelsDirectory.$file;
             // Check if it's a file, not a directory
             // ALX :: we don't need to check if it's a file on .php
             // if (!is_file($filePath)) {
