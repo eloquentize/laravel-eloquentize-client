@@ -13,7 +13,7 @@ trait GatherModels
             $modelsDirectory = app_path($modelsPath);
         } else {
             $modelsDirectory = app_path('Models/');
-            if (!is_dir($modelsDirectory)) {
+            if (! is_dir($modelsDirectory)) {
                 $modelsDirectory = app_path('/');
             }
         }
@@ -25,7 +25,7 @@ trait GatherModels
                 continue;
             }
             // Full path to the file
-            $filePath = $modelsDirectory . $file;
+            $filePath = $modelsDirectory.$file;
             // Check if it's a file, not a directory
             // ALX :: we don't need to check if it's a file on .php
             // if (!is_file($filePath)) {
@@ -36,7 +36,7 @@ trait GatherModels
                 continue;
             }
             $modelName = pathinfo($file, PATHINFO_FILENAME);
-            if ($filterModels !== null && !in_array($modelName, $filterModels)) {
+            if ($filterModels !== null && ! in_array($modelName, $filterModels)) {
                 continue;
             }
             $models[] = $modelName;
@@ -44,7 +44,6 @@ trait GatherModels
 
         return $models;
     }
-
 
     public function getOldestDateFromModels(array $models, ?string $modelsPath = null)
     {
