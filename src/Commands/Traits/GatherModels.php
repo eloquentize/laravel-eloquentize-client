@@ -130,7 +130,7 @@ trait GatherModels
     {
 
         if (! class_exists($modelClass)) {
-            $this->defaultErrorMessage();
+            //$this->defaultErrorMessage();
             $this->verbose("Model class $modelClass did not exists.", 'warn');
 
             return false;
@@ -139,28 +139,28 @@ trait GatherModels
         try {
             $instance = new $modelClass;
         } catch (\Throwable $e) {
-            $this->defaultErrorMessage();
+            //$this->defaultErrorMessage();
             $this->verbose("Model class $modelClass is not instanciable.", 'warn');
 
             return false;
         }
 
         if (! $instance instanceof \Illuminate\Database\Eloquent\Model) {
-            $this->defaultErrorMessage();
+            //$this->defaultErrorMessage();
             $this->verbose("Model class $modelClass is not an instance of \Illuminate\Database\Eloquent\Model.", 'warn');
 
             return false;
         }
 
         if (! $instance->usesTimestamps()) {
-            $this->defaultErrorMessage();
+            //$this->defaultErrorMessage();
             $this->verbose("Model class $modelClass does not use timestamps.", 'warn');
 
             return false;
         }
 
         if (! Schema::connection($instance->getConnectionName())->hasColumn($instance->getTable(), $column)) {
-            $this->defaultErrorMessage();
+            //$this->defaultErrorMessage();
             $this->verbose("Model class $modelClass does not have a column named ".$column, 'warn');
 
             return false;

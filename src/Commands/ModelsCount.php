@@ -15,11 +15,13 @@ class ModelsCount extends BaseCommand
 {
     use BuildPeriod, DateArgument, GatherModels, HasVerbose, ModelsOption, PrepareMetricsData, SendMetricsData;
 
-    protected $signature = 'eloquentize:models-count {date?} {--event=created_at} {--periodType=daily} {--dateFormat=} {--M|models=} {--modelsPath=} {--scope=} {--scopeValue=} ';
+    protected $signature = 'eloquentize:models-count {date?} {--event=created_at} {--periodType=daily} {--dateFormat=} {--M|models=} {--modelsPath=} {--scope=} {--scopeValue=} {--dry} ';
 
     protected $description = 'Send to Eloquentize the counts of all models for a given date and event.';
 
     protected $verbose = false;
+
+    protected $dry = false;
 
     public function performModelCount(array $models, CarbonPeriod $period, string $event, ?string $modelsPath = null, ?string $scope = null, ?string $scopeValue = null)
     {
@@ -72,6 +74,7 @@ class ModelsCount extends BaseCommand
         $scope = $this->option('scope');
         $scopeValue = $this->option('scopeValue');
         $filteredModels = $this->parseModelsOption($this->option('models'));
+        $this->dry = $this->option('dry') ?? false;
 
         if ($scope && ! $filteredModels) {
             $this->error('"scope" option requires "--models" option to be set. models provided should have a corresponding scope.');
@@ -98,7 +101,27 @@ class ModelsCount extends BaseCommand
         $metricsData = $this->prepareMetricsData($metrics, $period, $event);
 
         $this->verbose('Sending models count data to eloquentize...'.config('eloquentize.api_url').'/api/metrics/models');
-        $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'), $event);
+        if ($this->dry) {
+            $this->line('');
+            $this->warn('Dry run enabled. Data NOT sent to eloquentize.');
+            $this->line('');
+            $this->line('----- Source data -----');
+            $this->line('The data will be stored in source :');
+            $this->info('***** '.$this->cleanAppUrl(env('APP_URL')) . '-' . env('APP_ENV').' *****');
+            $this->line('Be sure to define a comprehensive source name by setting APP_URL ');
+            $this->line('');
+            $this->line('----- Models tracked -----');
+            $this->info(implode(', ', $models));
+            $this->line('');
+
+            // $this->line('Metrics data:');
+            // $this->line(json_encode($metricsData, JSON_PRETTY_PRINT));
+
+            return 0;
+        }else{
+            $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'), $event);
+        }
+        
 
         $this->line('Models count data sent to eloquentize.');
 

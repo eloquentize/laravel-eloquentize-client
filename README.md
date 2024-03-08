@@ -9,7 +9,7 @@ Eloquentize provides a full-featured monitoring toolkit for Laravel applications
 
 [<img src="https://alpha.eloquentize.com/images/eloquentize-logo-tr.svg" width="128px" />](https://alpha.eloquentize.com/docs)
 
-# Getting start
+# Getting started
 
 ## Installation
 

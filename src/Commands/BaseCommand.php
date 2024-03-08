@@ -24,7 +24,19 @@ class BaseCommand extends Command
         if (env('APP_ENV') === null) {
             throw new \Exception('app.env is not set in .env');
         }
+        if (env('APP_URL') === "http://localhost") {
+            throw new \Exception('app.url is set to http://localhost. Please change these values in .env bevause eloquentize identifies the environment by the app.url and app.env values.');
+        }
 
         return parent::execute($input, $output);
+    }
+
+    protected function cleanAppUrl($url)
+    {
+        $url = preg_replace('#^https?://#', '', $url);
+        $url = preg_replace('#^http?://#', '', $url);
+        $url = rtrim($url, '/');
+
+        return $url;
     }
 }
