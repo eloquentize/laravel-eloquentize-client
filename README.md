@@ -1,4 +1,4 @@
-# laravel lib for alpha.eloquentize.com service
+# laravel lib for eloquentize.com service
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/eloquentize/laravel-eloquentize-client.svg?style=flat-square)](https://packagist.org/packages/eloquentize/laravel-eloquentize-client)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/eloquentize/laravel-eloquentize-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/eloquentize/laravel-eloquentize-client/actions?query=workflow%3Arun-tests+branch%3Amain)
@@ -7,7 +7,7 @@
 
 Eloquentize provides a full-featured monitoring toolkit for Laravel applications, designed for effortless integration. By incorporating a straightforward library, leveraging a smooth API, and offering a tailor-made dashboard, it simplifies the visualization of daily project metrics. This solution facilitates the efficient tracking and aggregation of model event metrics, streamlining project management and enriching insights, all without the need for extra coding.
 
-[<img src="https://alpha.eloquentize.com/images/eloquentize-logo-tr.svg" width="128px" />](https://alpha.eloquentize.com/docs)
+[<img src="https://eloquentize.com/images/eloquentize-logo-tr.svg" width="128px" />](https://eloquentize.com/docs)
 
 # Getting started
 
@@ -48,7 +48,7 @@ for php 7.4 please use
 composer require eloquentize/laravel-eloquentize-client dev-php7.4
 ```
 
-After installation, proceed to [alpha](https://alpha.eloquentize.com) to create your account and generate an API key. This key should then be added to your **`.env`** file in the following manner to complete the configuration process:
+After installation, proceed to [alpha](https://eloquentize.com) to create your account and generate an API key. This key should then be added to your **`.env`** file in the following manner to complete the configuration process:
 
 ```makefile
 ELOQUENTIZE_API_TOKEN=your_api_key_here
@@ -69,7 +69,7 @@ php artisan eloquentize:models-count-legacy
 ```
 ### Docs
 
-The full doc can be found [Eloquentize](https://alpha.eloquentize.com/).
+The full doc can be found [Eloquentize](https://eloquentize.com/).
 
 ## Testing
 ```bash
