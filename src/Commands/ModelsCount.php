@@ -107,7 +107,7 @@ class ModelsCount extends BaseCommand
             $this->line('');
             $this->line('----- Source data -----');
             $this->line('The data will be stored in source :');
-            $this->info('***** '.$this->cleanAppUrl(env('APP_URL')) . '-' . env('APP_ENV').' *****');
+            $this->info('***** '.$this->cleanAppUrl(env('APP_URL')).'-'.env('APP_ENV').' *****');
             $this->line('Be sure to define a relevant source name by setting APP_URL ');
             $this->line('');
             $this->line('----- Models tracked -----');
