@@ -9,5 +9,3 @@ and composer.json set a App namespace on
 
 to add to the doc: 
 php artisan eloquentize:models-count --models=User --scope=Email --scopeValue="alex@plpage.net" -v 
-
-
