@@ -9,3 +9,29 @@ and composer.json set a App namespace on
 
 to add to the doc: 
 php artisan eloquentize:models-count --models=User --scope=Email --scopeValue="alex@plpage.net" -v 
+
+
+a wide used depency with maximum compâtibility sample: 
+{
+"name": "creativeorange/gravatar",
+"version": "v1.0.24",
+"source": {
+    "type": "git",
+    "url": "https://github.com/creativeorange/gravatar.git",
+    "reference": "ec0d78c7d4ef6d66c3cc09b6a03ab8d53e44379f"
+},
+"dist": {
+    "type": "zip",
+    "url": "https://api.github.com/repos/creativeorange/gravatar/zipball/ec0d78c7d4ef6d66c3cc09b6a03ab8d53e44379f",
+    "reference": "ec0d78c7d4ef6d66c3cc09b6a03ab8d53e44379f",
+    "shasum": ""
+},
+"require": {
+    "illuminate/support": "^5|^6|^7|^8|^9|^10.0|^11.0",
+    "php": ">=5.4.0"
+},
+"require-dev": {
+    "nunomaduro/larastan": "^0.6.2|^2.4",
+    "orchestra/testbench": "^5.4|^8.0|^9.0",
+    "php": ">=7.2"
+},
