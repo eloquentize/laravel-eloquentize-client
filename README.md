@@ -48,16 +48,16 @@ for php 7.4 please use
 composer require eloquentize/laravel-eloquentize-client dev-php7.4
 ```
 
-After installation, proceed to [alpha](https://eloquentize.com) to create your account and generate an API key. This key should then be added to your **`.env`** file in the following manner to complete the configuration process:
+After installation, proceed to [eloquentize](https://eloquentize.com) to create your account and generate an API key. This key should then be added to your **`.env`** file in the following manner to complete the configuration process:
 
 ```makefile
 ELOQUENTIZE_API_TOKEN=your_api_key_here
 ```
 
 **Usage** involves executing artisan commands like the one below to gather daily metrics:
-
+( use --dry and -v for your test )
 ```bash
-php artisan eloquentize:models-count
+php artisan eloquentize:models-count --dry -v
 ```
 
 You can tailor the data collection to your needs by specifying dates, event types, or selecting specific models, with aggregation commands available for deeper insights. These commands can be automated by scheduling them within **`App\Console\Kernel`**.
@@ -69,7 +69,7 @@ php artisan eloquentize:models-count-legacy
 ```
 ### Docs
 
-The full doc can be found [Eloquentize](https://eloquentize.com/).
+The full doc can be found [Eloquentize](https://eloquentize.com/docs).
 
 ## Testing
 ```bash
