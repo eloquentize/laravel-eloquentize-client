@@ -119,7 +119,7 @@ class ModelsCount extends BaseCommand
 
             return 0;
         } else {
-            $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'), $event);
+            $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'));
         }
 
         $this->line('Models count data sent to eloquentize.');
