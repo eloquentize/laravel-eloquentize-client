@@ -12,7 +12,7 @@ class BaseCommand extends Command
 
     public $defaultDateFormat = 'd/m/Y';
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (env('ELOQUENTIZE_API_TOKEN') === null) {
             throw new \Exception('ELOQUENTIZE_API_TOKEN is not set in .env');
@@ -31,7 +31,7 @@ class BaseCommand extends Command
         return parent::execute($input, $output);
     }
 
-    protected function cleanAppUrl($url) : string
+    protected function cleanAppUrl($url): string
     {
         $url = preg_replace('#^https?://#', '', $url);
         $url = preg_replace('#^http?://#', '', $url);
