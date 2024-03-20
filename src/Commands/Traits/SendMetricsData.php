@@ -15,8 +15,8 @@ trait SendMetricsData
             if ($response->successful()) {
                 $this->info('Data successfully sent to Eloquentize');
             } else {
-                $this->verbose('Data sending failed', 'error');
-                $this->verbose($response->body(), 'error');
+                $this->error('Data sending failed', 'error');
+                $this->error($response->body(), 'error');
             }
         } catch (\Exception $e) {
             $this->verbose($e->getMessage(), 'error');
