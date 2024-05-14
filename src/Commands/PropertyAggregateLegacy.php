@@ -15,7 +15,7 @@ class PropertyAggregateLegacy extends BaseCommand
 {
     use AggregationArgument, BuildPeriod, GatherModels, HasVerbose, ModelsOption;
 
-    protected $signature = 'eloquentize:property-aggregate-legacy {model} {property} {aggregation} {date?} {event?} {--periodType=daily} {--dateFormat=} {--modelsPath=}';
+    protected $signature = 'eloquentize:property-aggregate-legacy {model} {property} {aggregation} {date?} {event?} {--periodType=daily} {--dateFormat=} {--modelsPath=} {--scope=} {--scopeValue=}';
 
     protected $description = 'Send to Eloquentize the aggregation of a model property from a given date or from the oldest eloquent model created_at to yesterday';
 
@@ -69,6 +69,8 @@ class PropertyAggregateLegacy extends BaseCommand
                 '--event' => $event,
                 '--dateFormat' => $dateFormat,
                 '--modelsPath' => $modelsPath,
+                '--scope' => $this->option('scope'),
+                '--scopeValue' => $this->option('scopeValue'),
             ]);
 
             // Advance the progress bar after processing each date
