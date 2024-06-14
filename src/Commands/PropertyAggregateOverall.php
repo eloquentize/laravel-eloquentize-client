@@ -52,7 +52,7 @@ class PropertyAggregateOverall extends BaseCommand
             $count = $query->$method($property) ?? 0;
             $this->verbose('The '.$method.' of '.$model.'->'.$property.' overall is : '.$count);
 
-            $label = 'Overall ' .$model;
+            $label = 'Overall '.$model;
             if ($scope && $scopeValue) {
                 $label .= '::'.$scope.'('.$scopeValue.')';
             } elseif ($scope) {

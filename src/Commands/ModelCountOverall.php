@@ -3,14 +3,14 @@
 namespace Eloquentize\LaravelClient\Commands;
 
 use Carbon\CarbonPeriod;
-use Illuminate\Support\Carbon;
-use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
 use Eloquentize\LaravelClient\Commands\Traits\BuildPeriod;
 use Eloquentize\LaravelClient\Commands\Traits\DateArgument;
 use Eloquentize\LaravelClient\Commands\Traits\GatherModels;
+use Eloquentize\LaravelClient\Commands\Traits\HasVerbose;
 use Eloquentize\LaravelClient\Commands\Traits\ModelsOption;
-use Eloquentize\LaravelClient\Commands\Traits\SendMetricsData;
 use Eloquentize\LaravelClient\Commands\Traits\PrepareMetricsData;
+use Eloquentize\LaravelClient\Commands\Traits\SendMetricsData;
+use Illuminate\Support\Carbon;
 
 class ModelCountOverall extends BaseCommand
 {
@@ -28,7 +28,6 @@ class ModelCountOverall extends BaseCommand
     {
         $metrics = [];
         $modelClass = $this->getModelClass($model, $modelsPath);
-
 
         try {
 
