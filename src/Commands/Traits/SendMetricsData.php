@@ -13,7 +13,7 @@ trait SendMetricsData
             $response = Http::acceptJson()->withToken($token)->post($url, $data);
 
             if ($response->successful()) {
-                $this->info('Data successfully sent to Eloquentize');
+                $this->info('Data successfully sent to Eloquentize!');
             } else {
                 $this->error('Data sending failed', 'error');
                 $this->error($response->body(), 'error');

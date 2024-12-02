@@ -107,7 +107,7 @@ class ModelsCount extends BaseCommand
             $this->line('');
             $this->line('----- Source data -----');
             $this->line('The data will be stored in source :');
-            $this->info('***** '.$this->cleanAppUrl(env('APP_URL')).'-'.env('APP_ENV').' *****');
+            $this->info('***** '.$this->cleanAppUrl(config('app.url')).'-'.config('app.env').' *****');
             $this->line('Be sure to define a relevant source name by setting APP_URL ');
             $this->line('');
             $this->line('----- Models tracked -----');
@@ -119,7 +119,7 @@ class ModelsCount extends BaseCommand
 
             return 0;
         } else {
-            $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'));
+            $this->sendMetricsData($metricsData, config('eloquentize.ELOQUENTIZE_API_TOKEN'));
         }
 
         $this->line('Models count data sent to eloquentize.');

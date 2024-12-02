@@ -52,7 +52,7 @@ class PropertyAggregateOverall extends BaseCommand
             $count = $query->$method($property) ?? 0;
             $this->verbose('The '.$method.' of '.$model.'->'.$property.' overall is : '.$count);
 
-            $label = 'Overall ' .$model;
+            $label = 'Overall '.$model;
             if ($scope && $scopeValue) {
                 $label .= '::'.$scope.'('.$scopeValue.')';
             } elseif ($scope) {
@@ -92,7 +92,7 @@ class PropertyAggregateOverall extends BaseCommand
         $period = new CarbonPeriod($oldestDate, Carbon::now()->endOfDay());
         $metricsData = $this->prepareMetricsData($metrics, $period, 'overall');
 
-        $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'));
+        $this->sendMetricsData($metricsData, config('eloquentize.ELOQUENTIZE_API_TOKEN'));
 
         return 0;
 

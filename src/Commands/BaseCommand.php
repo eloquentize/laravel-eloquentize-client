@@ -14,17 +14,17 @@ class BaseCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (env('ELOQUENTIZE_API_TOKEN') === null) {
+        if (config('eloquentize.ELOQUENTIZE_API_TOKEN') === null) {
             throw new \Exception('ELOQUENTIZE_API_TOKEN is not set in .env');
         }
 
-        if (env('APP_URL') === null) {
+        if (config('app.url') === null) {
             throw new \Exception('app.url is not set in .env');
         }
-        if (env('APP_ENV') === null) {
+        if (config('app.env') === null) {
             throw new \Exception('app.env is not set in .env');
         }
-        if (env('APP_URL') === 'http://localhost') {
+        if (config('app.url') === 'http://localhost') {
             throw new \Exception('app.url is set to http://localhost. Please change these values in .env bevause eloquentize identifies the environment by the app.url and app.env values.');
         }
 

@@ -5,7 +5,7 @@ use Eloquentize\LaravelClient\Mock\PeriodBuilder;
 
 it('ensure BuildPeriod trait create a CarbonPeriod instance', function () {
 
-    $periodBuilder = new PeriodBuilder();
+    $periodBuilder = new PeriodBuilder;
 
     $date = '2021-01-01 00:00:00';
     $periodType = 'daily';

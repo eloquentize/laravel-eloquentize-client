@@ -102,7 +102,7 @@ class PropertyAggregate extends BaseCommand
         $metrics = $this->perform($model, $aggregation, $property, $period, $event, $modelsPath, $scope, $scopeValue);
         $metricsData = $this->prepareMetricsData($metrics, $period, $event);
 
-        $this->sendMetricsData($metricsData, env('ELOQUENTIZE_API_TOKEN'));
+        $this->sendMetricsData($metricsData, config('eloquentize.ELOQUENTIZE_API_TOKEN'));
 
         return 0;
 
