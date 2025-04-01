@@ -114,6 +114,7 @@ trait GatherModels
             // Validate if the custom path is a directory
             if (! is_dir(app_path($modelsPath))) {
                 $this->error("The provided models path is not a valid directory: {$modelsPath}");
+
                 return "App\\{$model}";
             }
 
