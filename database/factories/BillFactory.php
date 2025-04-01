@@ -14,6 +14,7 @@ class BillFactory extends Factory
         return [
             'ref' => $this->faker->name,
             'price' => $this->faker->randomNumber(4),
+            'amount' => $this->faker->randomNumber(3),
         ];
     }
 }

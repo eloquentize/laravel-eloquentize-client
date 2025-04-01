@@ -23,8 +23,8 @@ class LaravelClientServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-eloquentize-client')
             ->hasConfigFile('eloquentize')
-            //->hasViews()
-            //->hasMigration('create_laravel-client_table')
+            // ->hasViews()
+            // ->hasMigration('create_laravel-client_table')
             ->hasCommand(ModelsCount::class)
             ->hasCommand(ModelsCountLegacy::class)
             ->hasCommand(ModelCountOverall::class)

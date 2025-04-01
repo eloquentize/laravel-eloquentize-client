@@ -28,9 +28,9 @@ class PropertyAggregate extends BaseCommand
         $modelClass = $this->getModelClass($model, $modelsPath);
 
         if (! $this->isModelValid($modelClass, $property)) {
-            //exit(1);
-            //echo "\n".$modelClass;
-            //echo "\n"."Model is not valid";
+            // exit(1);
+            // echo "\n".$modelClass;
+            // echo "\n"."Model is not valid";
             return 1;
         }
 
@@ -52,11 +52,11 @@ class PropertyAggregate extends BaseCommand
             }
 
             $count = $query->$method($property) ?? 0;
-            //echo "handle\n ";
-            //echo "The ".$method." of ".$model."->".$property." is : ".$count;
+            // echo "handle\n ";
+            // echo "The ".$method." of ".$model."->".$property." is : ".$count;
             $this->verbose('The '.$method.' of '.$model.'->'.$property.' is : '.$count);
             if ($scope && $scopeValue) {
-                //echo "-- WITH ".$scope."(".$scopeValue.")";
+                // echo "-- WITH ".$scope."(".$scopeValue.")";
             }
 
             $label = $model;

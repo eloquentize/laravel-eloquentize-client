@@ -28,7 +28,7 @@ it('ensure property-aggregate-legacy sum is callable with scope priceover 500', 
 
 })->with([
     fn () => Bill::factory()->create(['ref' => 'BILL_0000001', 'price' => 1000]),
-    //fn () => Bill::factory()->create(['ref' => 'BILL_0000002', 'price' => 500]),
+    // fn () => Bill::factory()->create(['ref' => 'BILL_0000002', 'price' => 500]),
 ]);
 
 // it('ensure property-aggregate sum return an error if Model do not exists', function () {

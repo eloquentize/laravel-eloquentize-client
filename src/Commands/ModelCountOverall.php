@@ -30,6 +30,11 @@ class ModelCountOverall extends BaseCommand
         $modelClass = $this->getModelClass($model, $modelsPath);
 
         try {
+            // Check if the model class exists
+            if (!class_exists($modelClass)) {
+                $this->error("Model class $modelClass does not exist.");
+                return 1;
+            }
 
             // sound avg / min / max / sum return 0 if no records found ? for now
             $query = $modelClass::query();
@@ -58,8 +63,7 @@ class ModelCountOverall extends BaseCommand
 
             $metrics[] = (object) ['label' => $label, 'count' => $count];
         } catch (\Exception $e) {
-            $this->verbose('An error occurred: '.$e->getMessage(), 'error');
-
+            $this->error('An error occurred: '.$e->getMessage());
             return 1;
         }
 
@@ -82,10 +86,21 @@ class ModelCountOverall extends BaseCommand
         }
 
         $metrics = $this->perform($model, $modelsPath, $scope, $scopeValue);
+        
+        // If perform returns 1, it means there was an error
+        if ($metrics === 1) {
+            return 1;
+        }
+        
+        // If oldestDate is null or 1, it means there was an error
+        if ($oldestDate === null || $oldestDate === 1) {
+            return 1;
+        }
+        
         $period = new CarbonPeriod($oldestDate, Carbon::now()->endOfDay());
         $metricsData = $this->prepareMetricsData($metrics, $period, 'overall');
 
-        $this->sendMetricsData($metricsData, config('eloquentize.ELOQUENTIZE_API_TOKEN'));
+        $this->sendMetricsData($metricsData, \config('eloquentize.ELOQUENTIZE_API_TOKEN'));
 
         return 0;
     }

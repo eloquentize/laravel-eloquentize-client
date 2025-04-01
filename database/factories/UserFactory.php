@@ -13,6 +13,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'active' => $this->faker->boolean,
         ];
     }
 }

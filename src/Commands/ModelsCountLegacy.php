@@ -53,8 +53,8 @@ class ModelsCountLegacy extends BaseCommand
         $this->verbose("Gather metrics from: $date");
 
         // find a way to use the progress bar only if laravel version is >8 disabled for now
-        //$progress = progress(label: 'Processing date range', steps: count($dateRange));
-        //$progress->start();
+        // $progress = progress(label: 'Processing date range', steps: count($dateRange));
+        // $progress->start();
 
         foreach ($dateRange as $d) {
             // Format the date into a string that the command will understand
@@ -74,11 +74,11 @@ class ModelsCountLegacy extends BaseCommand
             ]);
 
             // Advance the progress bar after processing each date
-            //$progress->advance();
+            // $progress->advance();
         }
 
         // Finish the progress bar after processing all dates
-        //$progress->finish();
+        // $progress->finish();
         return 0;
     }
 }

@@ -49,7 +49,7 @@ trait BuildPeriod
 
     public function getArrayOfDays(Carbon $oldestDate)
     {
-        //This is if you want to get the previous day from today
+        // This is if you want to get the previous day from today
         $yesterday = Carbon::now()->subDay();
 
         $dateRange = [];

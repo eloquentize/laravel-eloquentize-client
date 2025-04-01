@@ -18,6 +18,11 @@ trait GatherModels
             }
         }
 
+        // Check if the directory exists
+        if (! is_dir($modelsDirectory)) {
+            return [];
+        }
+
         $files = scandir($modelsDirectory);
         $models = [];
         foreach ($files as $file) {
@@ -108,12 +113,13 @@ trait GatherModels
         if ($modelsPath !== null) {
             // Validate if the custom path is a directory
             if (! is_dir(app_path($modelsPath))) {
-                throw new \Exception("The provided models path is not a valid directory: {$modelsPath}");
+                $this->error("The provided models path is not a valid directory: {$modelsPath}");
+                return "App\\{$model}";
             }
 
             // Use the custom models path to determine the namespace
             $namespace = str_replace('/', '\\', $modelsPath); // Convert path to namespace
-            //return namespace; // Ensure the namespace is properly formatted
+            // return namespace; // Ensure the namespace is properly formatted
 
             return "App\\{$namespace}\\{$model}";
         }
@@ -130,7 +136,7 @@ trait GatherModels
     {
 
         if (! class_exists($modelClass)) {
-            //$this->defaultErrorMessage();
+            // $this->defaultErrorMessage();
             $this->verbose("Model class $modelClass did not exists.", 'warn');
 
             return false;
@@ -139,28 +145,28 @@ trait GatherModels
         try {
             $instance = new $modelClass;
         } catch (\Throwable $e) {
-            //$this->defaultErrorMessage();
+            // $this->defaultErrorMessage();
             $this->verbose("Model class $modelClass is not instanciable.", 'warn');
 
             return false;
         }
 
         if (! $instance instanceof \Illuminate\Database\Eloquent\Model) {
-            //$this->defaultErrorMessage();
+            // $this->defaultErrorMessage();
             $this->verbose("Model class $modelClass is not an instance of \Illuminate\Database\Eloquent\Model.", 'warn');
 
             return false;
         }
 
         if (! $instance->usesTimestamps()) {
-            //$this->defaultErrorMessage();
+            // $this->defaultErrorMessage();
             $this->verbose("Model class $modelClass does not use timestamps.", 'warn');
 
             return false;
         }
 
         if (! Schema::connection($instance->getConnectionName())->hasColumn($instance->getTable(), $column)) {
-            //$this->defaultErrorMessage();
+            // $this->defaultErrorMessage();
             $this->verbose("Model class $modelClass does not have a column named ".$column, 'warn');
 
             return false;

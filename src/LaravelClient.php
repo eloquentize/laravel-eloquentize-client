@@ -2,6 +2,4 @@
 
 namespace Eloquentize\LaravelClient;
 
-class LaravelClient
-{
-}
+class LaravelClient {}

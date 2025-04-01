@@ -9,7 +9,7 @@ trait PrepareMetricsData
     protected function prepareMetricsData($metrics, CarbonPeriod $period, $event)
     {
         return [
-            //'team_id' => $this->getTeamId(), // Assume this method retrieves the team ID, possibly from a config or environment variable
+            // 'team_id' => $this->getTeamId(), // Assume this method retrieves the team ID, possibly from a config or environment variable
             'start' => $period->getStartDate(),
             'end' => $period->getEndDate(),
             'timezone' => config('app.timezone') ?? 'UTC',
