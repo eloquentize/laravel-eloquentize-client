@@ -31,8 +31,9 @@ class ModelCountOverall extends BaseCommand
 
         try {
             // Check if the model class exists
-            if (!class_exists($modelClass)) {
+            if (! class_exists($modelClass)) {
                 $this->error("Model class $modelClass does not exist.");
+
                 return 1;
             }
 
@@ -64,6 +65,7 @@ class ModelCountOverall extends BaseCommand
             $metrics[] = (object) ['label' => $label, 'count' => $count];
         } catch (\Exception $e) {
             $this->error('An error occurred: '.$e->getMessage());
+
             return 1;
         }
 
@@ -86,17 +88,17 @@ class ModelCountOverall extends BaseCommand
         }
 
         $metrics = $this->perform($model, $modelsPath, $scope, $scopeValue);
-        
+
         // If perform returns 1, it means there was an error
         if ($metrics === 1) {
             return 1;
         }
-        
+
         // If oldestDate is null or 1, it means there was an error
         if ($oldestDate === null || $oldestDate === 1) {
             return 1;
         }
-        
+
         $period = new CarbonPeriod($oldestDate, Carbon::now()->endOfDay());
         $metricsData = $this->prepareMetricsData($metrics, $period, 'overall');
 

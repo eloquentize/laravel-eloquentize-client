@@ -52,19 +52,19 @@ class TestModelNoTimestamps extends Model
 test('gatherModels returns model names from directory', function () {
     // Create a mock for the GatherModels trait
     $handler = Mockery::mock(GatherModelsTestClass::class);
-    
+
     // Define the expected return values for different calls to gatherModels
     $handler->shouldReceive('gatherModels')
-            ->with()
-            ->andReturn(['User', 'Product', 'Order']);
-            
+        ->with()
+        ->andReturn(['User', 'Product', 'Order']);
+
     $handler->shouldReceive('gatherModels')
-            ->with(['User', 'Order'])
-            ->andReturn(['User', 'Order']);
-            
+        ->with(['User', 'Order'])
+        ->andReturn(['User', 'Order']);
+
     $handler->shouldReceive('gatherModels')
-            ->with(null, 'Custom/Path')
-            ->andReturn(['User', 'Product', 'Order']);
+        ->with(null, 'Custom/Path')
+        ->andReturn(['User', 'Product', 'Order']);
 
     // Test with no filter
     $models = $handler->gatherModels();

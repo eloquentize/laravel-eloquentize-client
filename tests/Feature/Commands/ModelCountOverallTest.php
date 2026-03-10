@@ -1,8 +1,6 @@
 <?php
 
 use App\Testing\Models\User;
-use Carbon\Carbon;
-use Eloquentize\LaravelClient\Commands\ModelCountOverall;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;

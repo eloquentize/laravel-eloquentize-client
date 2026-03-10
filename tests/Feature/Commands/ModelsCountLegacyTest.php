@@ -3,9 +3,7 @@
 use App\Testing\Models\Bill;
 use App\Testing\Models\User;
 use Carbon\Carbon;
-use Eloquentize\LaravelClient\Commands\ModelsCountLegacy;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
@@ -16,7 +14,7 @@ beforeEach(function () {
     Config::set('app.url', 'https://example.com');
     Config::set('app.env', 'testing');
     Config::set('app.timezone', 'UTC');
-    
+
     // Fake HTTP responses
     Http::fake([
         'https://api.eloquentize.com/api/metrics/models' => Http::response(['status' => 'ok'], 200),
