@@ -2,6 +2,7 @@
 
 namespace Eloquentize\LaravelClient\Commands\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
 
@@ -152,7 +153,7 @@ trait GatherModels
             return false;
         }
 
-        if (! $instance instanceof \Illuminate\Database\Eloquent\Model) {
+        if (! $instance instanceof Model) {
             // $this->defaultErrorMessage();
             $this->verbose("Model class $modelClass is not an instance of \Illuminate\Database\Eloquent\Model.", 'warn');
 

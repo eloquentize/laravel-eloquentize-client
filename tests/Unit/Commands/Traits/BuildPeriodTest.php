@@ -65,9 +65,9 @@ test('buildPeriod handles invalid date format', function () {
         // If we get here, the method didn't throw an exception
         expect($period)->toBeFalse();
         expect($handler->getMessages()['error'][0])->toContain('Invalid date format');
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         // If an exception was thrown, that's also acceptable
-        expect($e)->toBeInstanceOf(\Exception::class);
+        expect($e)->toBeInstanceOf(Exception::class);
     }
 });
 

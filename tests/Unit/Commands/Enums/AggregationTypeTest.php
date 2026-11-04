@@ -18,5 +18,5 @@ test('AggregationType::from creates correct enum from string', function () {
 });
 
 test('AggregationType::from throws ValueError for invalid string', function () {
-    expect(fn () => AggregationType::from('invalid'))->toThrow(\ValueError::class);
+    expect(fn () => AggregationType::from('invalid'))->toThrow(ValueError::class);
 });

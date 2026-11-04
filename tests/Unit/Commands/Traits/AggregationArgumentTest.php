@@ -39,7 +39,7 @@ test('resolveAggregation shows error for invalid aggregation type', function () 
 
     try {
         $handler->testResolveAggregation('invalid');
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         // Exit is called in the trait, which will throw an exception in tests
     }
 
