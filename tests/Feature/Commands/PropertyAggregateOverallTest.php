@@ -1,8 +1,6 @@
 <?php
 
 use App\Testing\Models\Bill;
-use Carbon\Carbon;
-use Eloquentize\LaravelClient\Commands\PropertyAggregateOverall;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -26,13 +24,6 @@ test('property-aggregate-overall command executes successfully with sum aggregat
     Bill::factory()->create(['amount' => 100, 'created_at' => now()->subDays(5)]);
     Bill::factory()->create(['amount' => 200, 'created_at' => now()->subDays(2)]);
     Bill::factory()->create(['amount' => 300, 'created_at' => now()]);
-
-    // Mock the getOldestDateFromModel method to return a known date
-    $this->mock(PropertyAggregateOverall::class, function ($mock) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('handle')->passthru();
-    });
 
     // Execute command
     $this->artisan('eloquentize:property-aggregate-overall Bill amount sum --modelsPath=Testing/Models')
@@ -64,13 +55,6 @@ test('property-aggregate-overall command executes successfully with avg aggregat
     Bill::factory()->create(['amount' => 200, 'created_at' => now()->subDays(2)]);
     Bill::factory()->create(['amount' => 300, 'created_at' => now()]);
 
-    // Mock the getOldestDateFromModel method to return a known date
-    $this->mock(PropertyAggregateOverall::class, function ($mock) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('handle')->passthru();
-    });
-
     // Execute command
     $this->artisan('eloquentize:property-aggregate-overall Bill amount avg --modelsPath=Testing/Models')
         ->assertExitCode(Command::SUCCESS);
@@ -84,7 +68,7 @@ test('property-aggregate-overall command executes successfully with avg aggregat
         foreach ($data['metrics'] as $metric) {
             if ($metric->label === 'Overall Bill::amount->avg()') {
                 $hasCorrectLabel = true;
-                if ($metric->count === 200) { // (100 + 200 + 300) / 3
+                if ((float) $metric->count === 200.0) { // (100 + 200 + 300) / 3
                     $hasCorrectCount = true;
                 }
                 break;
@@ -100,13 +84,6 @@ test('property-aggregate-overall command executes successfully with max aggregat
     Bill::factory()->create(['amount' => 100, 'created_at' => now()->subDays(5)]);
     Bill::factory()->create(['amount' => 200, 'created_at' => now()->subDays(2)]);
     Bill::factory()->create(['amount' => 300, 'created_at' => now()]);
-
-    // Mock the getOldestDateFromModel method to return a known date
-    $this->mock(PropertyAggregateOverall::class, function ($mock) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('handle')->passthru();
-    });
 
     // Execute command
     $this->artisan('eloquentize:property-aggregate-overall Bill amount max --modelsPath=Testing/Models')
@@ -138,13 +115,6 @@ test('property-aggregate-overall command executes successfully with min aggregat
     Bill::factory()->create(['amount' => 200, 'created_at' => now()->subDays(2)]);
     Bill::factory()->create(['amount' => 300, 'created_at' => now()]);
 
-    // Mock the getOldestDateFromModel method to return a known date
-    $this->mock(PropertyAggregateOverall::class, function ($mock) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('handle')->passthru();
-    });
-
     // Execute command
     $this->artisan('eloquentize:property-aggregate-overall Bill amount min --modelsPath=Testing/Models')
         ->assertExitCode(Command::SUCCESS);
@@ -170,106 +140,38 @@ test('property-aggregate-overall command executes successfully with min aggregat
 });
 
 test('property-aggregate-overall command with scope', function () {
-    // Create a test model with a scope
-    $billModel = new class extends Bill
-    {
-        public function scopeHighValue($query)
-        {
-            return $query->where('amount', '>=', 200);
-        }
-    };
-
-    // Create test data with different dates
-    $billModel::unguard();
-    $billModel::create(['amount' => 100, 'created_at' => now()->subDays(5)]);
-    $billModel::create(['amount' => 200, 'created_at' => now()->subDays(2)]);
-    $billModel::create(['amount' => 300, 'created_at' => now()]);
-    $billModel::reguard();
-
-    // Mock methods
-    $this->mock(PropertyAggregateOverall::class, function ($mock) use ($billModel) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('getModelClass')
-            ->andReturn(get_class($billModel));
-        $mock->shouldReceive('isModelValid')
-            ->andReturn(true);
-        $mock->shouldReceive('handle')->passthru();
-    });
+    Bill::factory()->create(['amount' => 100, 'price' => 10, 'created_at' => now()->subDays(5)]);
+    Bill::factory()->create(['amount' => 200, 'price' => 1000, 'created_at' => now()->subDays(2)]);
+    Bill::factory()->create(['amount' => 300, 'price' => 2000, 'created_at' => now()]);
 
     // Execute command
-    $this->artisan('eloquentize:property-aggregate-overall Bill amount sum --scope=highValue --modelsPath=Testing/Models')
+    $this->artisan('eloquentize:property-aggregate-overall Bill amount sum --scope=expensive --modelsPath=Testing/Models')
         ->assertExitCode(Command::SUCCESS);
 
     // Assert HTTP request was made with correct data
     Http::assertSent(function ($request) {
-        $data = $request->data();
-        $hasCorrectLabel = false;
-        $hasCorrectCount = false;
-
-        foreach ($data['metrics'] as $metric) {
-            if ($metric->label === 'Overall Bill::highValue::amount->sum()') {
-                $hasCorrectLabel = true;
-                if ($metric->count === 500) { // 200 + 300 (only high value bills)
-                    $hasCorrectCount = true;
-                }
-                break;
-            }
-        }
-
-        return $hasCorrectLabel && $hasCorrectCount;
+        return collect($request->data()['metrics'])->contains(
+            fn ($metric) => $metric->label === 'Overall Bill::expensive::amount->sum()'
+                && $metric->count === 500 // 200 + 300 (only expensive bills)
+        );
     });
 });
 
 test('property-aggregate-overall command with scope and scopeValue', function () {
-    // Create a test model with a scope
-    $billModel = new class extends Bill
-    {
-        public function scopeValueRange($query, $min)
-        {
-            return $query->where('amount', '>=', $min);
-        }
-    };
-
-    // Create test data with different dates
-    $billModel::unguard();
-    $billModel::create(['amount' => 100, 'created_at' => now()->subDays(5)]);
-    $billModel::create(['amount' => 200, 'created_at' => now()->subDays(2)]);
-    $billModel::create(['amount' => 300, 'created_at' => now()]);
-    $billModel::reguard();
-
-    // Mock methods
-    $this->mock(PropertyAggregateOverall::class, function ($mock) use ($billModel) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('getModelClass')
-            ->andReturn(get_class($billModel));
-        $mock->shouldReceive('isModelValid')
-            ->andReturn(true);
-        $mock->shouldReceive('handle')->passthru();
-    });
+    Bill::factory()->create(['amount' => 100, 'price' => 10, 'created_at' => now()->subDays(5)]);
+    Bill::factory()->create(['amount' => 200, 'price' => 1000, 'created_at' => now()->subDays(2)]);
+    Bill::factory()->create(['amount' => 300, 'price' => 2000, 'created_at' => now()]);
 
     // Execute command
-    $this->artisan('eloquentize:property-aggregate-overall Bill amount sum --scope=valueRange --scopeValue=200 --modelsPath=Testing/Models')
+    $this->artisan('eloquentize:property-aggregate-overall Bill amount sum --scope=priceOver --scopeValue=1500 --modelsPath=Testing/Models')
         ->assertExitCode(Command::SUCCESS);
 
     // Assert HTTP request was made with correct data
     Http::assertSent(function ($request) {
-        $data = $request->data();
-        $hasCorrectLabel = false;
-        $hasCorrectCount = false;
-
-        foreach ($data['metrics'] as $metric) {
-            if ($metric->label === 'Overall Bill::valueRange(200)::amount->sum()') {
-                $hasCorrectLabel = true;
-                if ($metric->count === 500) { // 200 + 300 (only bills >= 200)
-                    $hasCorrectCount = true;
-                }
-                break;
-            }
-        }
-
-        return $hasCorrectLabel && $hasCorrectCount;
+        return collect($request->data()['metrics'])->contains(
+            fn ($metric) => $metric->label === 'Overall Bill::priceOver(1500)::amount->sum()'
+                && $metric->count === 300 // Only the bill with price > 1500
+        );
     });
 });
 
@@ -288,18 +190,8 @@ test('property-aggregate-overall command with scopeValue option requires scope o
 });
 
 test('property-aggregate-overall command with invalid model or property', function () {
-    // Mock methods
-    $this->mock(PropertyAggregateOverall::class, function ($mock) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('isModelValid')
-            ->andReturn(false);
-        $mock->shouldReceive('handle')->passthru();
-    });
-
-    // Execute command
-    $this->artisan('eloquentize:property-aggregate-overall Bill nonExistentProperty sum --modelsPath=Testing/Models')
-        ->assertExitCode(Command::SUCCESS);
+    $this->artisan('eloquentize:property-aggregate-overall NonExistentModel nonExistentProperty sum --modelsPath=Testing/Models')
+        ->assertExitCode(Command::FAILURE);
 
     // Assert no HTTP request was made
     Http::assertNothingSent();
@@ -308,15 +200,6 @@ test('property-aggregate-overall command with invalid model or property', functi
 test('property-aggregate-overall command handles non-existent scope', function () {
     // Create test data
     Bill::factory()->create(['amount' => 100, 'created_at' => now()]);
-
-    // Mock methods
-    $this->mock(PropertyAggregateOverall::class, function ($mock) {
-        $mock->shouldReceive('getOldestDateFromModel')
-            ->andReturn(Carbon::now()->subDays(10));
-        $mock->shouldReceive('isModelValid')
-            ->andReturn(true);
-        $mock->shouldReceive('handle')->passthru();
-    });
 
     // Execute command
     $this->artisan('eloquentize:property-aggregate-overall Bill amount sum --scope=nonExistentScope --modelsPath=Testing/Models')

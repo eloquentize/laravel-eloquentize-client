@@ -2,7 +2,6 @@
 
 use App\Testing\Models\Bill;
 use Carbon\Carbon;
-use Eloquentize\LaravelClient\Commands\PropertyAggregate;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -68,7 +67,7 @@ test('property-aggregate command executes successfully with avg aggregation', fu
         foreach ($data['metrics'] as $metric) {
             if ($metric->label === 'Bill::amount->avg()') {
                 $hasCorrectLabel = true;
-                if ($metric->count === 150) { // (100 + 200) / 2
+                if ((float) $metric->count === 150.0) { // (100 + 200) / 2
                     $hasCorrectCount = true;
                 }
                 break;
@@ -142,31 +141,22 @@ test('property-aggregate command with specific date', function () {
     Carbon::setTestNow(Carbon::parse('2023-01-15'));
 
     // Create test data
-    Bill::factory()->create(['amount' => 100, 'created_at' => '2023-01-10']);
-    Bill::factory()->create(['amount' => 200, 'created_at' => '2023-01-10']);
-    Bill::factory()->create(['amount' => 300, 'created_at' => '2023-01-11']);
+    Bill::factory()->create(['amount' => 100, 'created_at' => '2023-01-10 10:00:00']);
+    Bill::factory()->create(['amount' => 200, 'created_at' => '2023-01-10 15:00:00']);
+    Bill::factory()->create(['amount' => 300, 'created_at' => '2023-01-11 10:00:00']);
 
-    // Execute command
-    $this->artisan('eloquentize:property-aggregate Bill amount sum 2023-01-10 --modelsPath=Testing/Models')
+    // Execute command (default date format is d/m/Y)
+    $this->artisan('eloquentize:property-aggregate Bill amount sum 10/01/2023 --modelsPath=Testing/Models')
         ->assertExitCode(Command::SUCCESS);
 
     // Assert HTTP request was made with correct data
     Http::assertSent(function ($request) {
         $data = $request->data();
-        $hasCorrectDate = false;
-        $hasCorrectCount = false;
 
-        if ($data['start']->format('Y-m-d') === '2023-01-10' &&
-            $data['end']->format('Y-m-d') === '2023-01-10') {
-            $hasCorrectDate = true;
-        }
+        $hasCorrectDate = Carbon::parse($data['start'])->format('Y-m-d') === '2023-01-10'
+            && Carbon::parse($data['end'])->format('Y-m-d') === '2023-01-10';
 
-        foreach ($data['metrics'] as $metric) {
-            if ($metric->count === 300) { // 100 + 200 (only from 2023-01-10)
-                $hasCorrectCount = true;
-                break;
-            }
-        }
+        $hasCorrectCount = collect($data['metrics'])->contains(fn ($metric) => $metric->count === 300); // 100 + 200 (only from 2023-01-10)
 
         return $hasCorrectDate && $hasCorrectCount;
     });
@@ -175,52 +165,29 @@ test('property-aggregate command with specific date', function () {
     Carbon::setTestNow();
 });
 
+test('property-aggregate command with a date that does not match the date format fails gracefully', function () {
+    $this->artisan('eloquentize:property-aggregate Bill amount sum 2023-01-10 --modelsPath=Testing/Models')
+        ->assertExitCode(Command::FAILURE);
+
+    Http::assertNothingSent();
+});
+
 test('property-aggregate command with scope', function () {
-    // Create a test model with a scope
-    $billModel = new class extends Bill
-    {
-        public function scopeHighValue($query)
-        {
-            return $query->where('amount', '>=', 150);
-        }
-    };
+    Bill::factory()->create(['amount' => 100, 'price' => 10, 'created_at' => now()]);
+    Bill::factory()->create(['amount' => 200, 'price' => 1000, 'created_at' => now()]);
 
-    // Create test data
-    $billModel::unguard();
-    $billModel::create(['amount' => 100, 'created_at' => now()]);
-    $billModel::create(['amount' => 200, 'created_at' => now()]);
-    $billModel::reguard();
-
-    // Mock methods
-    $this->mock(PropertyAggregate::class, function ($mock) use ($billModel) {
-        $mock->shouldReceive('getModelClass')
-            ->andReturn(get_class($billModel));
-        $mock->shouldReceive('isModelValid')
-            ->andReturn(true);
-        $mock->shouldReceive('handle')->passthru();
-    });
-
-    // Execute command
-    $this->artisan('eloquentize:property-aggregate Bill amount sum --scope=highValue --modelsPath=Testing/Models')
+    // Execute command with the priceOver() scope and a value
+    $this->artisan('eloquentize:property-aggregate Bill amount sum --scope=priceOver --scopeValue=500 --modelsPath=Testing/Models')
         ->assertExitCode(Command::SUCCESS);
 
     // Assert HTTP request was made with correct data
     Http::assertSent(function ($request) {
         $data = $request->data();
-        $hasCorrectLabel = false;
-        $hasCorrectCount = false;
 
-        foreach ($data['metrics'] as $metric) {
-            if ($metric->label === 'Bill::highValue::amount->sum()') {
-                $hasCorrectLabel = true;
-                if ($metric->count === 200) { // Only the 200 value bill
-                    $hasCorrectCount = true;
-                }
-                break;
-            }
-        }
-
-        return $hasCorrectLabel && $hasCorrectCount;
+        return collect($data['metrics'])->contains(
+            fn ($metric) => $metric->label === 'Bill::priceOver(500)::amount->sum()'
+                && $metric->count === 200 // Only the bill with price > 500
+        );
     });
 });
 
@@ -239,16 +206,8 @@ test('property-aggregate command with scopeValue option requires scope option', 
 });
 
 test('property-aggregate command with invalid model or property', function () {
-    // Mock methods
-    $this->mock(PropertyAggregate::class, function ($mock) {
-        $mock->shouldReceive('isModelValid')
-            ->andReturn(false);
-        $mock->shouldReceive('handle')->passthru();
-    });
-
-    // Execute command
-    $this->artisan('eloquentize:property-aggregate Bill nonExistentProperty sum --modelsPath=Testing/Models')
-        ->assertExitCode(Command::SUCCESS);
+    $this->artisan('eloquentize:property-aggregate NonExistentModel nonExistentProperty sum --modelsPath=Testing/Models')
+        ->assertExitCode(Command::FAILURE);
 
     // Assert no HTTP request was made
     Http::assertNothingSent();

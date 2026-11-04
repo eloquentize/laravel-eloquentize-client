@@ -3,6 +3,7 @@
 namespace Eloquentize\LaravelClient\Commands\Traits;
 
 use Carbon\CarbonPeriod;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Carbon;
 
 trait BuildPeriod
@@ -16,9 +17,14 @@ trait BuildPeriod
         }
 
         if ($date !== null) {
-            $carbonDate = Carbon::createFromFormat($dateFormat, $date);
+            try {
+                $carbonDate = Carbon::createFromFormat($dateFormat, $date);
+            } catch (InvalidFormatException) {
+                // Carbon 3 throws on malformed dates, Carbon 2 returned false
+                $carbonDate = false;
+            }
 
-            if ($date === false || $carbonDate->format($dateFormat) !== $date) {
+            if ($carbonDate === false || $carbonDate->format($dateFormat) !== $date) {
                 $this->error("Invalid date format. The date should be formatted according to the provided date format: '".$dateFormat."'.");
                 $this->error('Given date: '.$date);
 
@@ -34,7 +40,8 @@ trait BuildPeriod
                     break;
                 default:
                     $this->error("unhandled periodType: $periodType");
-                    break;
+
+                    return false;
             }
 
             $this->info('Period: '.$period->getStartDate()->format($dateFormat.' H:i:s').' to '.$period->getEndDate()->format($dateFormat.' H:i:s').' - '.config('app.timezone'));

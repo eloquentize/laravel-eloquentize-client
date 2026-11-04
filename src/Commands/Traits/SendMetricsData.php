@@ -16,11 +16,11 @@ trait SendMetricsData
             if ($response->successful()) {
                 $this->info('Data successfully sent to Eloquentize!');
             } else {
-                $this->error('Data sending failed', 'error');
-                $this->error($response->body(), 'error');
+                $this->error('Data sending failed');
+                $this->error($response->body());
             }
         } catch (\Exception $e) {
-            $this->error($e->getMessage(), 'error');
+            $this->error($e->getMessage());
         }
     }
 }

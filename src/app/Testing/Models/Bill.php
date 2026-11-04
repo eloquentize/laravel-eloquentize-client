@@ -15,4 +15,9 @@ class Bill extends Model
     {
         return $query->where('price', '>', $price);
     }
+
+    public function scopeExpensive($query)
+    {
+        return $query->where('price', '>', 500);
+    }
 }

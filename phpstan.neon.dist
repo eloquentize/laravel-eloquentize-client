@@ -10,5 +10,8 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
-
+    ignoreErrors:
+        # This is the package's own config file: env() is the right call here
+        -
+            identifier: larastan.noEnvCallsOutsideOfConfig
+            path: config/eloquentize.php

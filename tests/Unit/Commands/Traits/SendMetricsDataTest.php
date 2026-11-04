@@ -36,10 +36,8 @@ class SendMetricsDataTestClass
 test('sendMetricsData sends data to API and handles successful response', function () {
     $handler = new SendMetricsDataTestClass;
 
-    // Mock config
-    Config::shouldReceive('get')
-        ->with('eloquentize.api_url')
-        ->andReturn('https://api.eloquentize.com');
+    // Set config
+    Config::set('eloquentize.api_url', 'https://api.eloquentize.com');
 
     // Mock HTTP response
     Http::fake([
@@ -68,10 +66,8 @@ test('sendMetricsData sends data to API and handles successful response', functi
 test('sendMetricsData handles failed response', function () {
     $handler = new SendMetricsDataTestClass;
 
-    // Mock config
-    Config::shouldReceive('get')
-        ->with('eloquentize.api_url')
-        ->andReturn('https://api.eloquentize.com');
+    // Set config
+    Config::set('eloquentize.api_url', 'https://api.eloquentize.com');
 
     // Mock HTTP response
     Http::fake([
@@ -93,14 +89,12 @@ test('sendMetricsData handles exceptions', function () {
     $handler = new SendMetricsDataTestClass;
     $handler->verbose = true;
 
-    // Mock config
-    Config::shouldReceive('get')
-        ->with('eloquentize.api_url')
-        ->andReturn('https://api.eloquentize.com');
+    // Set config
+    Config::set('eloquentize.api_url', 'https://api.eloquentize.com');
 
     // Mock HTTP to throw exception
     Http::shouldReceive('acceptJson')
-        ->andThrow(new \Exception('Connection error'));
+        ->andThrow(new Exception('Connection error'));
 
     // Test data
     $data = ['metrics' => ['model1' => 10]];

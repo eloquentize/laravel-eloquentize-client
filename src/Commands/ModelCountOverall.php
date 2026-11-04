@@ -42,9 +42,9 @@ class ModelCountOverall extends BaseCommand
 
             if ($scope) {
                 if (method_exists($modelClass, 'scope'.$scope)) {
-                    if ($scope && $scopeValue) {
+                    if ($scopeValue) {
                         $query = $query->$scope($scopeValue);
-                    } elseif ($scope) {
+                    } else {
                         $query = $query->$scope();
                     }
                 } else {

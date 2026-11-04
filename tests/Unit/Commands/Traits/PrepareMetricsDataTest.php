@@ -15,16 +15,10 @@ class PrepareMetricsDataTestClass
 test('prepareMetricsData formats data correctly', function () {
     $handler = new PrepareMetricsDataTestClass;
 
-    // Mock config values
-    Config::shouldReceive('get')
-        ->with('app.timezone')
-        ->andReturn('Europe/Paris');
-    Config::shouldReceive('get')
-        ->with('app.url')
-        ->andReturn('https://example.com');
-    Config::shouldReceive('get')
-        ->with('app.env')
-        ->andReturn('testing');
+    // Set config values
+    Config::set('app.timezone', 'Europe/Paris');
+    Config::set('app.url', 'https://example.com');
+    Config::set('app.env', 'testing');
 
     // Create test data
     $metrics = [
@@ -41,8 +35,8 @@ test('prepareMetricsData formats data correctly', function () {
 
     // Assert the result
     expect($result)->toBeArray();
-    expect($result['start'])->toBe($startDate);
-    expect($result['end'])->toBe($endDate);
+    expect($result['start'])->toEqual($startDate);
+    expect($result['end'])->toEqual($endDate);
     expect($result['timezone'])->toBe('Europe/Paris');
     expect($result['app_url'])->toBe('https://example.com');
     expect($result['env'])->toBe('testing');
@@ -53,16 +47,10 @@ test('prepareMetricsData formats data correctly', function () {
 test('prepareMetricsData uses UTC as default timezone', function () {
     $handler = new PrepareMetricsDataTestClass;
 
-    // Mock config values
-    Config::shouldReceive('get')
-        ->with('app.timezone')
-        ->andReturnNull();
-    Config::shouldReceive('get')
-        ->with('app.url')
-        ->andReturn('https://example.com');
-    Config::shouldReceive('get')
-        ->with('app.env')
-        ->andReturn('testing');
+    // Set config values
+    Config::set('app.timezone', null);
+    Config::set('app.url', 'https://example.com');
+    Config::set('app.env', 'testing');
 
     // Create test data
     $metrics = ['model1' => 10];

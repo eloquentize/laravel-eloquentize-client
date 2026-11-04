@@ -28,6 +28,11 @@ class PropertyAggregateLegacy extends BaseCommand
         $model = $this->argument('model');
         $property = $this->argument('property');
         $aggregation = $this->resolveAggregation($this->argument('aggregation'));
+
+        if ($aggregation === null) {
+            return 1;
+        }
+
         $event = $this->argument('event') ?? 'created_at';
         $modelsPath = $this->option('modelsPath');
         $oldestDate = $this->getOldestDateFromModel($model, $modelsPath);

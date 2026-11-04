@@ -41,9 +41,9 @@ class PropertyAggregate extends BaseCommand
 
             if ($scope) {
                 if (method_exists($modelClass, 'scope'.$scope)) {
-                    if ($scope && $scopeValue) {
+                    if ($scopeValue) {
                         $query = $query->$scope($scopeValue);
-                    } elseif ($scope) {
+                    } else {
                         $query = $query->$scope();
                     }
                 } else {
@@ -83,6 +83,11 @@ class PropertyAggregate extends BaseCommand
         $this->verbose = $this->option('verbose') ?? false;
         $model = $this->argument('model');
         $aggregation = $this->resolveAggregation($this->argument('aggregation'));
+
+        if ($aggregation === null) {
+            return 1;
+        }
+
         $property = $this->argument('property');
         $event = $this->option('event') ?? 'created_at';
         $date = $this->resolveDate($this->argument('date') ?? 'today');
@@ -99,7 +104,21 @@ class PropertyAggregate extends BaseCommand
         }
 
         $period = $this->buildPeriod($date, $periodType, $dateFormat);
+
+        if ($period === false) {
+            // buildPeriod already reported what is wrong with the date / period type
+            return 1;
+        }
+
         $metrics = $this->perform($model, $aggregation, $property, $period, $event, $modelsPath, $scope, $scopeValue);
+
+        if (! is_array($metrics)) {
+            // perform() returns an error code when the model/property is invalid: nothing to send
+            $this->defaultErrorMessage("Unable to aggregate $model::$property.");
+
+            return 1;
+        }
+
         $metricsData = $this->prepareMetricsData($metrics, $period, $event);
 
         $this->sendMetricsData($metricsData, config('eloquentize.ELOQUENTIZE_API_TOKEN'));

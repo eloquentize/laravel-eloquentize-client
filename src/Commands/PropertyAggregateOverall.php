@@ -39,9 +39,9 @@ class PropertyAggregateOverall extends BaseCommand
 
             if ($scope) {
                 if (method_exists($modelClass, 'scope'.$scope)) {
-                    if ($scope && $scopeValue) {
+                    if ($scopeValue) {
                         $query = $query->$scope($scopeValue);
-                    } elseif ($scope) {
+                    } else {
                         $query = $query->$scope();
                     }
                 } else {
@@ -76,6 +76,11 @@ class PropertyAggregateOverall extends BaseCommand
         $this->verbose = $this->option('verbose') ?? false;
         $model = $this->argument('model');
         $aggregation = $this->resolveAggregation($this->argument('aggregation'));
+
+        if ($aggregation === null) {
+            return 1;
+        }
+
         $property = $this->argument('property');
         $modelsPath = $this->option('modelsPath');
         $scope = $this->option('scope');
@@ -88,7 +93,22 @@ class PropertyAggregateOverall extends BaseCommand
             return 1;
         }
 
+        if (! $oldestDate instanceof Carbon) {
+            // No usable date: invalid model, or no record at all
+            $this->defaultErrorMessage("Unable to aggregate $model::$property.");
+
+            return 1;
+        }
+
         $metrics = $this->perform($model, $aggregation, $property, $modelsPath, $scope, $scopeValue);
+
+        if (! is_array($metrics)) {
+            // perform() returns an error code when the model/property is invalid: nothing to send
+            $this->defaultErrorMessage("Unable to aggregate $model::$property.");
+
+            return 1;
+        }
+
         $period = new CarbonPeriod($oldestDate, Carbon::now()->endOfDay());
         $metricsData = $this->prepareMetricsData($metrics, $period, 'overall');
 
